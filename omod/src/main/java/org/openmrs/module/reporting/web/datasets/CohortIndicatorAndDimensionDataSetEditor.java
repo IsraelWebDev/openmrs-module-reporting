@@ -59,7 +59,7 @@ public class CohortIndicatorAndDimensionDataSetEditor {
 	
 	@RequestMapping("/module/reporting/datasets/cohortIndicatorAndDimensionAddSpecification.form")
 	public String addSpecification(@RequestParam("dsdUuid") String dsdUuid,
-							@RequestParam("index") Integer index,
+							@RequestParam(value = "index", required = false) Integer index,
 	                        @RequestParam("indicatorNumber") String indicatorNumber,
 	                        @RequestParam(value="label", required=false) String label,
 	                        @RequestParam("indicator") CohortIndicator indicator,

@@ -22,6 +22,13 @@
 			<version>0.2</version>
 			<scope>provided</scope>
 		</dependency>
+		<!-- Spring 5.3's request-parameter handling needs Servlet 3+ classes; matches what core 2.7 provides -->
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>javax.servlet-api</artifactId>
+			<version>4.0.1</version>
+			<scope>test</scope>
+		</dependency>
 	</dependencies>
 
 	<build>

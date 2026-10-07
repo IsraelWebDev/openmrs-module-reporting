@@ -94,11 +94,19 @@ public class PeriodIndicatorReportController {
 							@RequestParam(value="index", required=false) Integer index,
 							@RequestParam("key") String key,
 							@RequestParam("displayName") String displayName,
-							@RequestParam("indicator") CohortIndicator indicator,
-							@RequestParam("cohortQuery") CohortDefinition cohortDefinition,
+							@RequestParam(value = "indicator", required = false) CohortIndicator indicator,
+							@RequestParam(value = "cohortQuery", required = false) CohortDefinition cohortDefinition,
 							@RequestParam(value = "createFromCohortQuery", required = false) String createFromCohortQuery,
 							WebRequest request) {
-		
+
+		// the form sends only one of these, depending on the "Create from cohort query" checkbox
+		if (createFromCohortQuery == null && indicator == null) {
+			throw new IllegalArgumentException("An indicator is required");
+		}
+		if (createFromCohortQuery != null && cohortDefinition == null) {
+			throw new IllegalArgumentException("A cohort query is required to create an indicator from it");
+		}
+
 		PeriodIndicatorReportDefinition report = (PeriodIndicatorReportDefinition) Context.getService(ReportDefinitionService.class).getDefinitionByUuid(uuid);
 		PeriodIndicatorReportUtil.ensureDataSetDefinition(report);
 		CohortIndicatorDataSetDefinition cidsd = report.getIndicatorDataSetDefinition();
