@@ -92,6 +92,10 @@ public class ParameterizableUtil {
 		Class<? extends Parameterizable> mappedType = null;
 		if (StringUtils.isNotEmpty(property)) {
 	    	Field f = ReflectionUtil.getField(type, property);
+			if (f == null) {
+				throw new IllegalArgumentException("Cannot retrieve Mapped type from: "
+				        + (type == null ? null : type.getSimpleName()) + "." + property + ", no such property");
+			}
 			try {
 				Type genericType = null;
 				if (Mapped.class.isAssignableFrom(f.getType())) {

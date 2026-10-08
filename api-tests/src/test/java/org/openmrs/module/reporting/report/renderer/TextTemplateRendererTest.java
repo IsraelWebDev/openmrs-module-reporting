@@ -65,6 +65,23 @@ public class TextTemplateRendererTest extends BaseModuleContextSensitiveTest {
 		shouldRenderTemplate("VelocityTemplate.vm", "Velocity");
 	}
 	
+	@Test
+	public void shouldReportADesignWithNoTemplate() {
+		final ReportDesign reportDesign = new ReportDesign();
+		reportDesign.setName("Design without a template");
+		reportDesign.setRendererType(TextTemplateRenderer.class);
+
+		TextTemplateRenderer renderer = new TextTemplateRenderer() {
+			public ReportDesign getDesign(String argument) {
+				return reportDesign;
+			}
+		};
+
+		RenderingException e = Assertions.assertThrows(RenderingException.class,
+		    () -> renderer.render(new ReportData(), "ReportData", new ByteArrayOutputStream()));
+		Assertions.assertEquals("Report design 'Design without a template' has no template to render", e.getMessage());
+	}
+
 	private void shouldRenderTemplate(String templateName, String templateType) throws Exception {
 		
 		ReportDefinition reportDefinition = new ReportDefinition();
